@@ -1,0 +1,43 @@
+# Use Google C++ style as base
+BasedOnStyle: Google
+
+# Override settings to fit ROS2 conventions
+IndentWidth: 2            # ROS2 prefers 2 space indents
+TabWidth: 2
+UseTab: Never
+ColumnLimit: 100          # Allow line length up to 100 chars instead of Google's 80
+
+# Pointer alignment: left aligns *(e.g., int* ptr)
+
+PointerAlignment: Left
+DerivePointerAlignment: false
+
+# Allow short functions in inline form, common in ROS2 header definitions
+
+AllowShortFunctionsOnASingleLine: Inline
+
+# Control spaces before/after certain tokens to fit ROS2 expectations
+
+SpaceBeforeParens: ControlStatements  # Space before if/for/while parens only
+Standard: Cpp11                        # Use C++11 standard (ROS2 minimum)
+
+# Additional formatting options seen in ROS2
+
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: true
+BreakBeforeBraces: Allman            # Opening braces on new line
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+
+# Align consecutive assignments, often preferred to improve readability
+
+AlignConsecutiveAssignments: true
+
+# Avoid formatting header files inside third-party folders (optional)
+
+# Regex to exclude certain paths if needed, but typically handled by linter config
+
+# Comments format
+
+ReflowComments: true
+
+# Additional stylistic options can be added here
