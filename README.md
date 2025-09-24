@@ -107,7 +107,7 @@ sudo meson install -C build
 sudo ldconfig
 ```
 
-# Step 6 setup camera
+### Step 6 setup camera
 *NOTE tested on Pi 5*
 Check the camera module, this should be on the back of the packet, for example Camera Module 3 is IMX708
 
@@ -132,6 +132,21 @@ sudo usermod -aG video ${USER}
 sudo reboot
 ```
 
+#### Test for cameras
+
+##### Raspberry Pi 
+
+```bash
+rpicamera-hello --list-cameras
+sudo rpicam-vid -t 0 -n --codec libav --libav-format mpegts -o udp://192.168.1.15:5600
+```
+
+##### Host Side
+
+```bash
+ffplay udp://192.168.1.12:5600 -fflags nobuffer -flags low_delay -framedrop
+```
+
 
 ### Step 7 Setup ROS2
 
@@ -142,3 +157,9 @@ git clone git@github.com:Ryder-Robots/rr_quadx_ws.git
 cd rr_quadx_ws
 ./scripts/ros2_setup.bash
 ```
+
+## Package Layout
+
+Development for ROS2 is performed using the following build tool colcon,  documenation can be found at [A universal build tool](https://design.ros2.org/articles/build_tool.html)
+
+Packages for ROS2 are defined via REP149,  documentation found at [Package Manifest Format Three Specification](https://www.ros.org/reps/rep-0149.html)
