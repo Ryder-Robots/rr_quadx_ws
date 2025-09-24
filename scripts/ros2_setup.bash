@@ -33,7 +33,7 @@ LIB_CAMERA_INSTALL=0
 if [[ -e ${HOME}/.bashrc.ros2.back  ]]; then
     cp ${HOME}/.bashrc.ros2.back ${HOME}/.bashrc
 else 
-    cp ${HOME}/bashrc ${HOME}/.bashrc.ros2.back
+    cp ${HOME}/.bashrc ${HOME}/.bashrc.ros2.back
 fi
 
 # Updating Bash RC
