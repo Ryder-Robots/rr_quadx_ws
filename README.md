@@ -117,7 +117,7 @@ On operating system open and edit file ```/boot/firmware/config.txt``` the follo
 
 ```bash
 modify camera_auto_detect=0
-modify dtoverlay=imx708,cam1
+add dtoverlay=imx708,cam1 to "[all]" 
 ```
 
 dtoverlay is set to the model number of the camera, and the port is based on which port it is plugged into the pi5, this will either be
