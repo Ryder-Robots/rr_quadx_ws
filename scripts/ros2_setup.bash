@@ -33,11 +33,17 @@ ROS_DISTRO=kilted
 # Wrapper for installing packages
 function aptinstall(){
     pkg=${1}
-    apt-get install -y  ${pkg}
+    sudo apt-get install -y  ${pkg}
     if [[ $? -ne 0 ]]; then
         echo "ERROR: unable to install package: ${pkg}"
         exit 1
     fi
+}
+
+# update package cahes
+function update_pkg_cache() {
+  echo "INFO: attempting to upgrade packages"
+  sudo apt update && apt-get upgrade -y 
 }
 
 
