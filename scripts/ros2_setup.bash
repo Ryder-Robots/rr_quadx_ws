@@ -23,11 +23,41 @@ ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST
 # ROS2 distro to include.
 ROS_DISTRO=kilted
 
-# XRCE DDS Server and Client version
-XRCE_DDS_VERSION='v3.0.1'
+#TODO: this belongs in compile script.
+# # XRCE DDS Server and Client version
+# XRCE_DDS_VERSION='v3.0.1'
 
-LIB_CAMERA_INSTALL=0
+# LIB_CAMERA_INSTALL=0
 #=======================================
+
+# Wrapper for installing packages
+function aptinstall(){
+    pkg=${1}
+    apt-get install -y  ${pkg}
+    if [[ $? -ne 0 ]]; then
+        echo "ERROR: unable to install package: ${pkg}"
+        exit 1
+    fi
+}
+
+
+echo "INFO: start installing ROS2"
+export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F\" '{print $4}')
+curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo $VERSION_CODENAME)_all.deb" # If using Ubuntu derivates use $UBUNTU_CODENAME
+sudo dpkg -i /tmp/ros2-apt-source.deb
+aptinstall ros-dev-tools
+update_pkg_cache
+aptinstall ros-${ROS_DISTRO}-ros-base
+
+echo "INFO: installing controller software"
+aptinstall ros-${ROS_DISTRO}-ros2-control
+aptinstall ros-${ROS_DISTRO}-ros2-controllers
+aptinstall ros-${ROS_DISTRO}-foxglove-bridge
+
+echo "INFO: installing ROS2 dependencies"
+aptinstall python3-rosdep
+rosdep init
+rosdep update
 
 # Update .bashrc
 if [[ -e ${HOME}/.bashrc.ros2.back  ]]; then
