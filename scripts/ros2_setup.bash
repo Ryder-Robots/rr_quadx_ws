@@ -46,14 +46,20 @@ function update_pkg_cache() {
   sudo apt update && apt-get upgrade -y 
 }
 
+function fail() {
+   msg=${1}
+   echo "ERROR: unable to install: ${msg}"
+   exit 1
+}
+
 
 echo "INFO: start installing ROS2"
 export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F\" '{print $4}')
 curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo $VERSION_CODENAME)_all.deb" # If using Ubuntu derivates use $UBUNTU_CODENAME
-sudo dpkg -i /tmp/ros2-apt-source.deb
+sudo dpkg -i /tmp/ros2-apt-source.deb || fail "could not add ros2 apt sources"
 update_pkg_cache
 aptinstall ros-${ROS_DISTRO}-ros-base
-aptinstall ros-${ROS_DISTRO}-ros-dev-tools
+aptinstall ros-dev-tools
 
 echo "INFO: installing controller software"
 aptinstall ros-${ROS_DISTRO}-ros2-control
