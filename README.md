@@ -107,4 +107,12 @@ sudo meson install -C build
 sudo ldconfig
 ```
 
+### Step 6 Setup ROS2
 
+Assuming that valid SSH id_rsa has been created on Pi '${HOME}/.ssh' directory
+
+```bash
+git clone git@github.com:Ryder-Robots/rr_quadx_ws.git
+cd rr_quadx_ws
+./scripts/ros2_setup.bash
+```

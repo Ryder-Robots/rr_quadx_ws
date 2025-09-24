@@ -5,7 +5,7 @@
 #
 # This script should only be ran to change ROS2 distro,  and not for general compiling.
 #
-# Installation procedure aligns with https://docs.ros.org/en/${ROS_DISTO}/Installation/Ubuntu-Install-Debs.html
+# Installation procedure aligns with https://docs.ros.org/en/${ROS_DISTRO}/Installation/Ubuntu-Install-Debs.html
 # However assumes that locale supports UTF-8
 
 #=======================================
@@ -21,7 +21,7 @@ ROS_STATIC_PEERS=192.168.1.15
 ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST
 
 # ROS2 distro to include.
-ROS_DISTO=kilted
+ROS_DISTRO=kilted
 
 # XRCE DDS Server and Client version
 XRCE_DDS_VERSION='v3.0.1'
@@ -38,12 +38,12 @@ fi
 
 # Updating Bash RC
 echo "INFO: Updating bashrc ROS initlization"
-grep '/opt/ros/${ROS_DISTO}/setup.bash' ${HOME}/.bashrc || echo "/opt/ros/${ROS_DISTO}/setup.bash" "source /opt/ros/${ROS_DISTO}/setup.bash" 
+grep '/opt/ros/${ROS_DISTRO}/setup.bash' ${HOME}/.bashrc || echo "/opt/ros/${ROS_DISTRO}/setup.bash" "source /opt/ros/${ROS_DISTRO}/setup.bash" 
 grep ROS_DOMAIN_ID ${HOME}/.bashrc || echo "export ROS_DOMAIN_ID=${ROS_DOMAIN_ID}" >> ${HOME}/.bashrc
 grep ROS_AUTOMATIC_DISCOVERY_RANGE ${HOME}/.bashrc || echo "export ROS_AUTOMATIC_DISCOVERY_RANGE=${ROS_AUTOMATIC_DISCOVERY_RANGE}" >> ${HOME}/.bashrc
 grep ROS_STATIC_PEERS ${HOME}/.bashrc || echo  "export ROS_STATIC_PEERS='${ROS_STATIC_PEERS}'"  >> ${HOME}/.bashrc
-grep ROS_DISTO ${HOME}/.bashrc || echo  "export ROS_DISTO='${ROS_DISTO}'"  >> ${HOME}/.bashrc
-echo 'source /opt/ros/${ROS_DISTO}/setup.bash' >> ${HOME}/.bashrc
+grep ROS_DISTRO ${HOME}/.bashrc || echo  "export ROS_DISTRO='${ROS_DISTRO}'"  >> ${HOME}/.bashrc
+echo 'source /opt/ros/${ROS_DISTRO}/setup.bash' >> ${HOME}/.bashrc
 
 echo "INFO: sourcing .bashrc with ROS2 updates"
 source ${HOME}/.bashrc
