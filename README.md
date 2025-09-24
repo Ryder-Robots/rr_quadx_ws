@@ -107,7 +107,33 @@ sudo meson install -C build
 sudo ldconfig
 ```
 
-### Step 6 Setup ROS2
+# Step 6 setup camera
+*NOTE tested on Pi 5*
+Check the camera module, this should be on the back of the packet, for example Camera Module 3 is IMX708
+
+![cammodel](images/IMG_3622.jpeg)
+
+On operating system open and edit file ```/boot/firmware/config.txt``` the following options will need to be modified:
+
+```bash
+modify camera_auto_detect=0
+modify dtoverlay=imx708,cam1
+```
+
+dtoverlay is set to the model number of the camera, and the port is based on which port it is plugged into the pi5, this will either be
+cam0, or cam1.  For this example it is cam1 which is the following port:
+
+![camport](images/IMG_3623.jpeg)
+
+After this libcamera, and rpicam-apps can compile,  note that this is included in ros2_setup.bash script. Reboot the pi
+
+```bash
+sudo usermod -aG video ${USER}
+sudo reboot
+```
+
+
+### Step 7 Setup ROS2
 
 Assuming that valid SSH id_rsa has been created on Pi '${HOME}/.ssh' directory
 
