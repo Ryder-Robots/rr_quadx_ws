@@ -30,6 +30,10 @@ ROS_DISTRO=kilted
 # LIB_CAMERA_INSTALL=0
 #=======================================
 
+PPWD=$(pwd)
+source ${PPWD}/scripts/common.bash
+
+
 # Wrapper for installing packages
 function aptinstall(){
     pkg=${1}
@@ -46,11 +50,6 @@ function update_pkg_cache() {
   sudo apt update && apt-get upgrade -y 
 }
 
-function fail() {
-   msg=${1}
-   echo "ERROR: unable to install: ${msg}"
-   exit 1
-}
 
 
 echo "INFO: start installing ROS2"
@@ -65,6 +64,7 @@ echo "INFO: installing controller software"
 aptinstall ros-${ROS_DISTRO}-ros2-control
 aptinstall ros-${ROS_DISTRO}-ros2-controllers
 aptinstall ros-${ROS_DISTRO}-foxglove-bridge
+aptinstall ros-${ROS_DISTRO}-camera-calibration
 
 echo "INFO: installing ROS2 dependencies"
 aptinstall python3-rosdep

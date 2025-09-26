@@ -163,3 +163,35 @@ cd rr_quadx_ws
 Development for ROS2 is performed using the following build tool colcon,  documenation can be found at [A universal build tool](https://design.ros2.org/articles/build_tool.html)
 
 Packages for ROS2 are defined via REP149,  documentation found at [Package Manifest Format Three Specification](https://www.ros.org/reps/rep-0149.html)
+
+## Camera Callibration
+
+### Available Cameras
+
+```bash
+rpicam-hello --list-cameras
+```
+
+```text
+Available cameras
+-----------------
+0 : imx708 [4608x2592 10-bit RGGB] (/base/axi/pcie@120000/rp1/i2c@80000/imx708@1a)
+    Modes: 'SRGGB10_CSI2P' : 1536x864 [120.13 fps - (768, 432)/3072x1728 crop]
+                             2304x1296 [56.03 fps - (0, 0)/4608x2592 crop]
+                             4608x2592 [14.35 fps - (0, 0)/4608x2592 crop]
+```
+
+
+```bash
+
+ros2 run  camera_calibration  cameracalibrator -c imx708 -s 1536x864 --no-service-check  
+```
+
+
+```
+ros2 run camera_ros camera_node --ros-args \
+  -p pixel_format:=SRGGB10_CSI2P \
+  -p width:=4608 \
+  -p height:=2592 \
+  -p camera:=0
+```
