@@ -196,8 +196,18 @@ Available cameras
 
 ```bash
 
-ros2 run  camera_calibration  cameracalibrator -c imx708 -s 1536x864 --no-service-check  
+ros2 run camera_calibration cameracalibrator -c imx708 -s 9x8 --square 0.108 --no-service-check
+ 
 ```
+
+explanation:
+
+- -c is camera type which is imx708 from above
+- -s is checkboard shape
+- -square squares in meters
+- --no-service. Do not check for service (it does not exist yet)
+
+
 
 
 ```
