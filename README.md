@@ -43,6 +43,34 @@ sudo dhcpd eth0
 # Test connection with a ping
 ping 8.8.8.8
 ```
+
+Note YAML file /etc/netplant/50-cloud-init.yaml should exist. File may be simulair to
+
+```text
+network:
+  version: 2
+  ethernets:
+    eth0:
+      match:
+        macaddress: "2c:cf:67:88:02:84"
+      dhcp4: true
+      dhcp6: true
+      set-name: "eth0"
+```
+
+According to netplan manual page this will allow configuration of system daemons systemd-networkd or NetworkMananger. For full
+documenation on configuration use command:
+
+```bash
+man netplan
+```
+
+To test network connectivity the following command can be used, for low level connections
+
+```text
+netplan status
+```
+
 ### Step 3 Update apt
 
 On Pi
