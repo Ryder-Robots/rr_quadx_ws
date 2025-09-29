@@ -164,6 +164,7 @@ ffplay udp://192.168.1.12:5600 -fflags nobuffer -flags low_delay -framedrop
 Assuming that valid SSH id_rsa has been created on Pi '${HOME}/.ssh' directory
 
 ```bash
+cd ${HOME}
 git clone git@github.com:Ryder-Robots/rr_quadx_ws.git
 cd rr_quadx_ws
 ./scripts/ros2_setup.bash
