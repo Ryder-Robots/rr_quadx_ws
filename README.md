@@ -66,8 +66,9 @@ sudo apt install git -y
 ### Optional Step 5 Create libcamera (this step can be skipped on bootworm)
 
 ```bash
-sudo apt install -y build-essential  ninja-build meson software-properties-common cmake glib-2.0 doxygen graphviz python3-sphinx python3-sphinxcontrib.doxylink python3-pip
+sudo apt install -y build-essential  ninja-build meson software-properties-common cmake doxygen graphviz python3-sphinx python3-sphinxcontrib.doxylink python3-pip
 sudo apt install -y libepoxy-dev libjpeg-dev libtiff5-dev libpng-dev qtbase5-dev libavcodec-dev libavdevice-dev libavformat-dev libswresample-dev libboost-program-options-dev libdrm-dev libexif-dev python3-ply qt6-base-dev libevent-dev v4l-utils
+sudo apt-get install -y lttng-tools lttng-modules-dkms liblttng-ust-dev libglib2.0-dev
 sudo apt install -y \
   libgstreamer1.0-dev \
   libgstreamer-plugins-base1.0-dev \
@@ -108,10 +109,10 @@ rpicam apps build instructions (note that H264 is included here)
 
 ```bash
 # Support for H264 processing which is needed.
-sudo apt install ffmpeg
-sudo apt install -y libavcodec-dev libavformat-dev libavutil-dev libavfilter-dev libavdevice-dev libswscale-dev
-
 cd ${HOME}/system_ws/rpicam-apps
+sudo apt install -y ffmpeg
+sudo apt install -y libavcodec-dev libavformat-dev libavutil-dev libavfilter-dev libavdevice-dev libswscale-dev libopencv-dev
+
 meson setup build --buildtype=release
 sudo meson install -C build 
 sudo ldconfig

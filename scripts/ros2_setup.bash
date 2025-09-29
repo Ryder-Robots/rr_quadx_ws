@@ -49,12 +49,17 @@ function aptinstall(){
 # update package cahes
 function update_pkg_cache() {
   echo "INFO: attempting to upgrade packages"
-  sudo apt update && sudo  apt-get upgrade -y 
+  sudo apt update && sudo apt-get upgrade -y 
 }
 
 
 
 echo "INFO: start installing ROS2"
+aptinstall curl
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu bookworm main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+sudo apt update
+aptinstall ros-dev-tools
 
 update_pkg_cache
 aptinstall software-properties-common
@@ -66,7 +71,7 @@ curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-a
 # sudo dpkg -i /tmp/ros2-apt-source.deb || fail "could not add ros2 apt sources"
 
 aptinstall ros-${ROS_DISTRO}-ros-base
-aptinstall ros-dev-tools
+
 
 echo "INFO: installing controller software"
 aptinstall ros-${ROS_DISTRO}-ros2-control
