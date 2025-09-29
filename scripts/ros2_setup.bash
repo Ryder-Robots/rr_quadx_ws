@@ -23,6 +23,8 @@ ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST
 # ROS2 distro to include.
 ROS_DISTRO=kilted
 
+UBUNTU_CODENAME=$(lsb_release -c | cut -d : -f 2 | xargs)
+
 #TODO: this belongs in compile script.
 # # XRCE DDS Server and Client version
 # XRCE_DDS_VERSION='v3.0.1'
@@ -53,10 +55,16 @@ function update_pkg_cache() {
 
 
 echo "INFO: start installing ROS2"
+
+update_pkg_cache
+aptinstall software-properties-common
+sudo add-apt-repository universe -y
+
+aptinstall curl
 export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F\" '{print $4}')
 curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo $VERSION_CODENAME)_all.deb" # If using Ubuntu derivates use $UBUNTU_CODENAME
-sudo dpkg -i /tmp/ros2-apt-source.deb || fail "could not add ros2 apt sources"
-update_pkg_cache
+# sudo dpkg -i /tmp/ros2-apt-source.deb || fail "could not add ros2 apt sources"
+
 aptinstall ros-${ROS_DISTRO}-ros-base
 aptinstall ros-dev-tools
 

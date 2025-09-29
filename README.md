@@ -67,7 +67,7 @@ sudo apt install git -y
 
 ```bash
 sudo apt install -y build-essential  ninja-build meson software-properties-common cmake glib-2.0 doxygen graphviz python3-sphinx python3-sphinxcontrib.doxylink python3-pip
-sudo apt install -y libcamera-dev libepoxy-dev libjpeg-dev libtiff5-dev libpng-dev qtbase5-dev libavcodec-dev libavdevice-dev libavformat-dev libswresample-dev libboost-program-options-dev libdrm-dev libexif-dev python3-ply qt6-base-dev libevent-dev v4l-utils
+sudo apt install -y libepoxy-dev libjpeg-dev libtiff5-dev libpng-dev qtbase5-dev libavcodec-dev libavdevice-dev libavformat-dev libswresample-dev libboost-program-options-dev libdrm-dev libexif-dev python3-ply qt6-base-dev libevent-dev v4l-utils
 sudo apt install -y \
   libgstreamer1.0-dev \
   libgstreamer-plugins-base1.0-dev \
@@ -86,20 +86,30 @@ sudo apt install -y \
 mkdir -p system_ws && cd system_ws
 git clone https://github.com/raspberrypi/libcamera.git
 git clone https://github.com/raspberrypi/rpicam-apps.git
+```
 
+LibCamera build instructions
+```bash
 cd ${HOME}/system_ws/libcamera
 meson setup build --buildtype=release \
-    -Dpipelines=rpi/vc4,rpi/pisp \
-    -Dipas=rpi/vc4,rpi/pisp \
-    -Dv4l2=enabled \
-    -Dgstreamer=enabled \
-    -Dtest=true \
-    -Dlc-compliance=enabled \
-    -Dcam=disabled \
-    -Dqcam=enabled \
-    -Ddocumentation=disabled \
-    -Dpycamera=disabled 
+     -Dpipelines=rpi/vc4,rpi/pisp \
+     -Dipas=rpi/vc4,rpi/pisp \
+     -Dv4l2=enabled     \
+     -Dgstreamer=enabled     \
+     -Dtest=true     \
+     -Dlc-compliance=enabled     \
+     -Dcam=enabled     \
+     -Dqcam=enabled     \
+     -Ddocumentation=disabled     \
+     -Dpycamera=disabled -Dtracing=enabled
 sudo ninja -C build install
+```
+rpicam apps build instructions (note that H264 is included here)
+
+```bash
+# Support for H264 processing which is needed.
+sudo apt install ffmpeg
+sudo apt install -y libavcodec-dev libavformat-dev libavutil-dev libavfilter-dev libavdevice-dev libswscale-dev
 
 cd ${HOME}/system_ws/rpicam-apps
 meson setup build --buildtype=release
@@ -137,7 +147,7 @@ sudo reboot
 ##### Raspberry Pi 
 
 ```bash
-rpicamera-hello --list-cameras
+cam -l
 sudo rpicam-vid -t 0 -n --codec libav --libav-format mpegts -o udp://192.168.1.15:5600
 ```
 
