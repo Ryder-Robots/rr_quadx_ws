@@ -49,7 +49,7 @@ function aptinstall(){
 # update package cahes
 function update_pkg_cache() {
   echo "INFO: attempting to upgrade packages"
-  sudo apt update && apt-get upgrade -y 
+  sudo apt update && sudo  apt-get upgrade -y 
 }
 
 

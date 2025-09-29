@@ -63,7 +63,7 @@ sudo netplan apply
 sudo apt install git -y
 ```
 
-### Step 5 Create libcamera
+### Optional Step 5 Create libcamera (this step can be skipped on bootworm)
 
 ```bash
 sudo apt install -y build-essential  ninja-build meson software-properties-common cmake glib-2.0 doxygen graphviz python3-sphinx python3-sphinxcontrib.doxylink python3-pip
