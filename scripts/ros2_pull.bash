@@ -26,6 +26,11 @@ cd ${PPWD}
 source /opt/ros/$ROS_DISTRO/setup.bash
 rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO --skip-keys=libcamera
 sudo apt remove ros-$ROS_DISTRO-ros-camera
+cd ${PPWD}/src
+git_clone_pull 'https://github.com/christianrauch/camera_ros.git' camera_ros ${CAMERA_ROS_VERSION} main
+rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO --skip-keys=libcamera
+colcon build --event-handlers=console_direct+
+
 
 # CAMERA_ROS_VERSION='0.5.0'
 # XRCE_DSS_VERSION='v3.0.1'
