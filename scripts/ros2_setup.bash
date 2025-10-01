@@ -33,17 +33,7 @@ UBUNTU_CODENAME=$(lsb_release -c | cut -d : -f 2 | xargs)
 #=======================================
 
 PPWD=$(pwd)
-
-
-# Wrapper for installing packages
-function aptinstall(){
-    pkg=${1}
-    sudo apt-get install -y  ${pkg}
-    if [[ $? -ne 0 ]]; then
-        echo "ERROR: unable to install package: ${pkg}"
-        exit 1
-    fi
-}
+source ${PPWD}/scripts/common.bash
 
 # update package cahes
 function update_pkg_cache() {
