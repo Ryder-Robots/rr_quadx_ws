@@ -7,6 +7,26 @@ echo "INFO: Install Utilities"
 aptinstall ros-jazzy-image-transport-plugins 
 aptinstall v4l-utils
 
+echo "INFO: installing libcamera binary for Pi 5"
+aptinstall ppa:marco-sonic/rasppios
+aptinstall libcamera-tools 
+aptisntall rpicam-apps-lite 
+aptinstall python3-picamera2
+
+U=${USER}
+sudo adduser $U video
+
+
+sudo apt -y install python3-colcon-meson
+mdkir -p ${PPWD}/src
+cd ${PPWD}/src
+git clone https://github.com/christianrauch/camera_ros.git
+
+cd ${PPWD}
+source /opt/ros/$ROS_DISTRO/setup.bash
+rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO --skip-keys=libcamera
+sudo apt remove ros-$ROS_DISTRO-ros-camera
+
 # CAMERA_ROS_VERSION='0.5.0'
 # XRCE_DSS_VERSION='v3.0.1'
 
