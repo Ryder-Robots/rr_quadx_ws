@@ -147,6 +147,9 @@ sudo ldconfig
 ```
 
 ### Step 6 setup camera
+
+(Refer to https://github.com/ARLunan/Raspberry-Pi-Camera-ROS)
+
 *NOTE tested on Pi 5*
 Check the camera module, this should be on the back of the packet, for example Camera Module 3 is IMX708
 

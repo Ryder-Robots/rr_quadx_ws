@@ -21,7 +21,7 @@ ROS_STATIC_PEERS=192.168.1.15
 ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST
 
 # ROS2 distro to include.
-ROS_DISTRO=kilted
+ROS_DISTRO=jazzy
 
 UBUNTU_CODENAME=$(lsb_release -c | cut -d : -f 2 | xargs)
 
@@ -55,47 +55,64 @@ function update_pkg_cache() {
 
 
 echo "INFO: start installing ROS2"
-aptinstall curl
+echo "INFO: Enable required repositories"
 aptinstall software-properties-common
-sudo add-apt-repository universe
+sudo add-apt-repository universe | fail "could not add ros repositories"
+
+echo "INFO: installing ros2-apt source packages"
 aptinstall curl
 export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F\" '{print $4}')
-curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb"
+$ curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb"
 sudo dpkg -i /tmp/ros2-apt-source.deb
+
+echo "INFO: installing ROS2 development tools"
 aptinstall ros-dev-tools
-sudo apt update
-sudo apt upgrade
 
-# sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-# echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu bookworm main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
-# sudo apt update
+echo "INFO: install ros $ROS_DISTRO"
+aptinstall ros-$ROS_DISTRO-ros-base
 
-# # aptinstall python3-bloom
-# # aptinstall python3-vcstool
-# # aptinstall ros-dev-tools
-
-# update_pkg_cache
-# aptinstall software-properties-common
-# sudo add-apt-repository universe -y
 
 # aptinstall curl
+# aptinstall software-properties-common
+# sudo add-apt-repository universe
+# aptinstall curl
 # export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F\" '{print $4}')
-# curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo $VERSION_CODENAME)_all.deb" # If using Ubuntu derivates use $UBUNTU_CODENAME
-# # sudo dpkg -i /tmp/ros2-apt-source.deb || fail "could not add ros2 apt sources"
+# curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb"
+# sudo dpkg -i /tmp/ros2-apt-source.deb
+# aptinstall ros-dev-tools
+# sudo apt update
+# sudo apt upgrade
 
-aptinstall ros-${ROS_DISTRO}-ros-base
+# # sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+# # echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu bookworm main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+# # sudo apt update
+
+# # # aptinstall python3-bloom
+# # # aptinstall python3-vcstool
+# # # aptinstall ros-dev-tools
+
+# # update_pkg_cache
+# # aptinstall software-properties-common
+# # sudo add-apt-repository universe -y
+
+# # aptinstall curl
+# # export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F\" '{print $4}')
+# # curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo $VERSION_CODENAME)_all.deb" # If using Ubuntu derivates use $UBUNTU_CODENAME
+# # # sudo dpkg -i /tmp/ros2-apt-source.deb || fail "could not add ros2 apt sources"
+
+# aptinstall ros-${ROS_DISTRO}-ros-base
 
 
-echo "INFO: installing controller software"
-aptinstall ros-${ROS_DISTRO}-ros2-control
-aptinstall ros-${ROS_DISTRO}-ros2-controllers
-aptinstall ros-${ROS_DISTRO}-foxglove-bridge
-aptinstall ros-${ROS_DISTRO}-camera-calibration
+# echo "INFO: installing controller software"
+# aptinstall ros-${ROS_DISTRO}-ros2-control
+# aptinstall ros-${ROS_DISTRO}-ros2-controllers
+# aptinstall ros-${ROS_DISTRO}-foxglove-bridge
+# aptinstall ros-${ROS_DISTRO}-camera-calibration
 
-echo "INFO: installing ROS2 dependencies"
-aptinstall python3-rosdep
-rosdep init
-rosdep update
+# echo "INFO: installing ROS2 dependencies"
+# aptinstall python3-rosdep
+# rosdep init
+# rosdep update
 
 # Update .bashrc
 if [[ -e ${HOME}/.bashrc.ros2.back  ]]; then
