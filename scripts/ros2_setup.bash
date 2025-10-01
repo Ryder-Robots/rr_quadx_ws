@@ -33,7 +33,6 @@ UBUNTU_CODENAME=$(lsb_release -c | cut -d : -f 2 | xargs)
 #=======================================
 
 PPWD=$(pwd)
-source ${PPWD}/scripts/common.bash
 
 
 # Wrapper for installing packages
@@ -52,7 +51,11 @@ function update_pkg_cache() {
   sudo apt update && sudo apt-get upgrade -y 
 }
 
-
+function fail() {
+   msg=${1}
+   echo "ERROR: unable to install: ${msg}"
+   exit 1
+}
 
 echo "INFO: start installing ROS2"
 echo "INFO: Enable required repositories"
