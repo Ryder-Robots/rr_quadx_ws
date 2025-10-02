@@ -91,7 +91,9 @@ sudo netplan apply
 sudo apt install git -y
 ```
 
-### Optional Step 5 Create libcamera (this step can be skipped on bootworm)
+### Optional Step 5 Create libcamera 
+
+This step can be performed by ros2_setup_packages.bash script.
 
 ```bash
 sudo apt install -y build-essential  ninja-build meson software-properties-common cmake doxygen graphviz python3-sphinx python3-sphinxcontrib.doxylink python3-pip
