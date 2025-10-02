@@ -95,6 +95,8 @@ sudo apt install git -y
 
 This step can be performed by ros2_setup_packages.bash script.
 
+The files it uses are (Raspberry Pi OS Packages)[https://launchpad.net/~marco-sonic/+archive/ubuntu/rasppios] provided by mw46
+
 ```bash
 sudo apt install -y build-essential  ninja-build meson software-properties-common cmake doxygen graphviz python3-sphinx python3-sphinxcontrib.doxylink python3-pip
 sudo apt install -y libepoxy-dev libjpeg-dev libtiff5-dev libpng-dev qtbase5-dev libavcodec-dev libavdevice-dev libavformat-dev libswresample-dev libboost-program-options-dev libdrm-dev libexif-dev python3-ply qt6-base-dev libevent-dev v4l-utils

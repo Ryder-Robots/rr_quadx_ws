@@ -24,7 +24,7 @@ mdkir -p ${PPWD}/src
 echo "INFO: installing camera_ros"
 if [[ ! -d  ${PPWD}/src/camera_ros ]]; then
     cd ${PPWD}/src
-    git clone https://github.com/christianrauch/camera_ros.git
+    git clone -b 0.5.0 https://github.com/christianrauch/camera_ros.git
 else
     cd ${PPWD}/src/camera_ros
     git pull
