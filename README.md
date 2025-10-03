@@ -199,10 +199,13 @@ ffplay udp://192.168.1.12:5600 -fflags nobuffer -flags low_delay -framedrop
 Assuming that valid SSH id_rsa has been created on Pi '${HOME}/.ssh' directory
 
 ```bash
+sudo apt install software-properties-common
+sudo add-apt-repository universe
 cd ${HOME}
 git clone git@github.com:Ryder-Robots/rr_quadx_ws.git
 cd rr_quadx_ws
 ./scripts/ros2_setup.bash
+./scripts/ros2_setup_packages.bash
 ```
 
 ## Package Layout
@@ -216,7 +219,16 @@ Packages for ROS2 are defined via REP149,  documentation found at [Package Manif
 ### Available Cameras
 
 ```bash
-rpicam-hello --list-cameras
+sudo apt update
+sudo apt install ros-${ROS_DISTRO}-camera-calibration
+sudo apt install ros-${ROS_DISTRO}-image-publisher
+sudo apt install ros-${ROS_DISTRO}-image-rotate
+sudo apt install ros-${ROS_DISTRO}-tracetools-image-pipeline
+sudo apt install ros-${ROS_DISTRO}-image-proc
+sudo apt install ros-${ROS_DISTRO}-depth-image-proc
+sudo apt install ros-${ROS_DISTRO}-stereo-image-proc
+
+ros2 run  camera_ros camera_node --ros args -p orientation:=180
 ```
 
 ```text
@@ -231,7 +243,11 @@ Available cameras
 
 ```bash
 
-ros2 run camera_calibration cameracalibrator -c imx708 -s 9x8 --square 0.108 --no-service-check
+https://docs.nav2.org/tutorials/docs/camera_calibration.html
+
+# ros2 run camera_calibration cameracalibrator -c imx708 -s 9x8 --square 0.108 --no-service-check
+
+ros2 run camera_calibration cameracalibrator --size 9x8 --square 0.108 --ros-args -r image:=/camera/image_raw -p camera:=/imx708
  
 ```
 
